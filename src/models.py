@@ -1,8 +1,9 @@
 import jwt
-
+import time
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .extensions  import db
+from .settings import SECRET_KEY
 
 class User(db.Model):
     '''
@@ -11,8 +12,8 @@ class User(db.Model):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), index=True)
-    password_hash = db.Column(db.String(64))
+    username = db.Column(db.String(256), index=True)
+    password_hash = db.Column(db.String(256))
     posted_tasks = db.Column(db.Integer)
     completed_tasks = db.Column(db.Integer)
 
@@ -25,12 +26,12 @@ class User(db.Model):
     def generate_auth_token(self, expires_in=600):
         return jwt.encode(
             {'id': self.id, 'exp': time.time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256')
+            SECRET_KEY, algorithm='HS256')
 
     @staticmethod
     def verify_auth_token(token):
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'],
+            data = jwt.decode(token, SECRET_KEY,
                               algorithms=['HS256'])
         except:
             return
