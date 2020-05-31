@@ -11,6 +11,7 @@ from .commands import create_tables
 from .security import authenticate, identity
 # from .routes import main
 from .api.user import User, UserRegister, UserList
+from .api.requests import CreateRequest
 
 def create_app(config_file='settings.py'):
     app = Flask(__name__)
@@ -25,6 +26,7 @@ def create_app(config_file='settings.py'):
     api.add_resource(UserRegister, '/users/register')
     api.add_resource(UserList, '/users')
     api.add_resource(User, '/users/<int:user_id>')
+    api.add_resource(CreateRequest, '/requests/create')
 
     # Logging
     log_level = logging.INFO if app.config['DEBUG'] else logging.ERROR
