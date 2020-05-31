@@ -6,7 +6,7 @@ import enum
 from src.models import RequestModel, AdModel, UserModel
 from src.extensions import auth, db
 
-POST_REQUEST = 1
+POST_REQUEST = 2
 POST_AD = 1
 
 REQ_STAT_OPEN = 1
