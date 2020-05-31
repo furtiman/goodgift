@@ -5,6 +5,7 @@ from flask_jwt import jwt_required
 from src.models import UserModel
 from src.extensions import auth, db
 
+
 '''
 |   NAME      |     PATH       |   HTTP VERB     |            PURPOSE                   |
 |----------   |----------------|-----------------|--------------------------------------|
