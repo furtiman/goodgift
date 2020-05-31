@@ -7,15 +7,6 @@ from .extensions import db
 from .settings import SECRET_KEY
 
 
-class RequestStatus(enum.Enum):
-    r_open = 1
-    r_in_process = 2
-    r_completed = 3
-
-class TypeOfPost(enum.Enum):
-    ad = 1
-    request = 2 
-
 class UserModel(db.Model):
     '''
     Class representing a user
@@ -94,6 +85,6 @@ class RequestModel(db.Model):
     content = db.Column(db.String(256))
     price = db.Column(db.Integer)
     posted_at = db.Column(db.DateTime())
-    status = db.Column(db.Enum(RequestStatus))
+    status = db.Column(db.Integer)
     posted_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     completed_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
