@@ -12,6 +12,9 @@ class RequestStatus(enum.Enum):
     r_in_process = 2
     r_completed = 3
 
+class TypeOfPost(enum.Enum):
+    ad = 1
+    request = 2 
 
 class UserModel(db.Model):
     '''
@@ -73,7 +76,8 @@ class AdModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256))
-    posted = db.Column(db.String(256))
+    content = db.Column(db.String(256))
+    price = db.Column(db.Integer)
     status = db.Column(db.Boolean())  # Active / noon-active
     posted_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     responded_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -88,6 +92,7 @@ class RequestModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256))
     content = db.Column(db.String(256))
+    price = db.Column(db.Integer)
     posted_at = db.Column(db.DateTime())
     status = db.Column(db.Enum(RequestStatus))
     posted_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
