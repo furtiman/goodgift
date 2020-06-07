@@ -1,32 +1,33 @@
 from flask import Blueprint, jsonify, request, g, url_for, abort
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-import enum
 
 from src.models import RequestModel, AdModel, UserModel
 from src.extensions import auth, db
-
-POST_REQUEST = 2
-POST_AD = 1
 
 REQ_STAT_OPEN = 1
 REQ_STAT_IN_PROCESS = 2
 REQ_STAT_COMPLETED = 3
 
-class CreatePost(Resource):
+'''
+|   NAME        |     PATH          |   HTTP VERB     |               PURPOSE                   |
+|---------------|-------------------|-----------------|-----------------------------------------|
+| Get Reqs List | /requests         |      GET        | Get list of the request                 |
+| Add Request   | /requests         |      POST       | Add new request                         |
+| Get Request   | /requests/<int:id>|      GET        | Get a request with id                   |
+| Delete Request| /requests/<int:id>|      DELETE     | Delete a request with id                |
+| Modify Request| /requests/<int:id>|      PUT        | Modify a request with id                |
+'''
+
+
+class RequestList(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('title', type=str, required=True,
                         help='This field cannot be left blank')
-
     parser.add_argument('content', type=str, required=True,
                         help='This field cannot be left blank')
-
     parser.add_argument('price', type=int, required=True,
                         help='This field cannot be left blank')
-
-    parser.add_argument('post_type',  type=int, required=True,
-                        help='This field cannot be left blank')
-
     parser.add_argument('username', type=str, required=True,
                         help='This field cannot be left blank')
 
@@ -36,7 +37,6 @@ class CreatePost(Resource):
         content = data['content']
         price = data['price']
         username = data['username']
-        post_type = data['post_type']
         # Missing Parameters
         if title is None or content is None or username is None:
             return {'message': 'No title or content or creator passed for create record.'}, 400
@@ -45,23 +45,28 @@ class CreatePost(Resource):
         if user is None:
             return {'message': f'User {username} not found.'}, 401
 
-        if post_type == POST_REQUEST:
-            request = RequestModel()
-            request.title = title
-            request.posted_by_id = user.id
-            request.content = content
-            request.status = REQ_STAT_OPEN
-        
-            db.session.add(request)
-            db.session.commit()
-        else:
-            ad = AdModel()
-            ad.title = title
-            ad.posted_by_id = user.id
-            ad.content = content
-            ad.status = True
-        
-            db.session.add(ad)
-            db.session.commit()
+        request = RequestModel()
+        request.title = title
+        request.posted_by_id = user.id
+        request.content = content
+        request.status = REQ_STAT_OPEN
 
-        return {'message': 'Post created.'}, 200
+        db.session.add(request)
+        db.session.commit()
+        
+        return {'message': 'Request created.'}, 200
+
+    def get():
+        pass
+
+
+class Request(Resource):
+
+    def get(self, req_id):
+        pass
+
+    def delete(self, req_id):
+        pass
+
+    def put(self, req_id):
+        pass
