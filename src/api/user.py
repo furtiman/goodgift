@@ -24,8 +24,9 @@ class UserList(Resource):
     parser.add_argument('password', type=str, required=True,
                         help='This field cannot be left blank')
 
-    def post(self):
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls):
+        data = cls.parser.parse_args()
         username = data['username']
         password = data['password']
         # Missing Parameters
@@ -42,13 +43,15 @@ class UserList(Resource):
 
         return {'username': user.username}, 201
 
-    def get():
+    @classmethod
+    def get(cls):
         pass
 
 
 class User(Resource):
     # @jwt_required()
-    def get(self, user_id):
+    @classmethod
+    def get(cls, user_id):
         user = UserModel.query.get(user_id)
         if not user:
             return {'message': 'User not found.'}, 400
@@ -57,8 +60,10 @@ class User(Resource):
                         'posted_tasks': user.posted_tasks,
                         'completed_tasks': user.completed_tasks})
 
-    def delete(self, user_id):
+    @classmethod
+    def delete(cls, user_id):
         pass
 
-    def put(self, user_id):
+    @classmethod
+    def put(cls, user_id):
         pass

@@ -31,8 +31,9 @@ class RequestList(Resource):
     parser.add_argument('username', type=str, required=True,
                         help='This field cannot be left blank')
 
-    def post(self):
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls):
+        data = cls.parser.parse_args()
         title = data['title']
         content = data['content']
         price = data['price']
@@ -53,20 +54,24 @@ class RequestList(Resource):
 
         db.session.add(request)
         db.session.commit()
-        
+
         return {'message': 'Request created.'}, 200
 
-    def get():
+    @classmethod
+    def get(cls):
         pass
 
 
 class Request(Resource):
 
-    def get(self, req_id):
+    @classmethod
+    def get(cls, req_id):
         pass
 
-    def delete(self, req_id):
+    @classmethod
+    def delete(cls, req_id):
         pass
 
-    def put(self, req_id):
+    @classmethod
+    def put(cls, req_id):
         pass
