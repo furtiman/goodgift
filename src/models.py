@@ -19,28 +19,6 @@ class UserModel(db.Model):
     posted_tasks = db.Column(db.Integer)
     completed_tasks = db.Column(db.Integer)
 
-    # # Doer fields
-    # ads_posted = db.relationship('Ad',
-    #                              foreign_keys='Ad.posted_by_id',
-    #                              backref='advertiser',
-    #                              lazy=True)
-
-    # requests_completed = db.relationship('Request',
-    #                                      foreign_keys='Request.completed_by_id',
-    #                                      backref='advertiser',
-    #                                      lazy=True)
-
-    # # Asker fields
-    # ads_responded = db.relationship('Ad',
-    #                                 foreign_keys='Ad.completed_by_id',
-    #                                 backref='executor',
-    #                                 lazy=True)
-
-    # requests_completed = db.relationship('Request',
-    #                                      foreign_keys='Request.posted_by_id',
-    #                                      backref='advertiser',
-    #                                      lazy=True)
-
     def hash_password(self, password):
         self.password_hash = pbkdf2_sha256.hash(password)
 
@@ -69,7 +47,7 @@ class AdModel(db.Model):
     title = db.Column(db.String(256))
     content = db.Column(db.String(256))
     price = db.Column(db.Integer)
-    status = db.Column(db.Boolean())  # Active / noon-active
+    status = db.Column(db.Integer) # Active = 1 / Not active = 0
     posted_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     responded_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 

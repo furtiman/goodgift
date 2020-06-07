@@ -9,9 +9,11 @@ from logging.handlers import WatchedFileHandler
 from .extensions import db
 from .commands import create_tables
 from .security import authenticate, identity
-# from .routes import main
-from .api.user import User, UserRegister, UserList
-from .api.posts import CreatePost
+
+from .api.user import User, UserList
+from .api.request import Request, RequestList
+from .api.ad import Ad, AdList
+
 
 def create_app(config_file='settings.py'):
     app = Flask(__name__)
@@ -21,12 +23,14 @@ def create_app(config_file='settings.py'):
     api = Api(app)
 
     db.init_app(app)
-    app.cli.add_command(create_tables) # To interact with app from CLI
+    app.cli.add_command(create_tables)  # To interact with app from CLI
 
-    api.add_resource(UserRegister, '/users/register')
     api.add_resource(UserList, '/users')
     api.add_resource(User, '/users/<int:user_id>')
-    api.add_resource(CreatePost, '/posts/create')
+    api.add_resource(RequestList, '/requests')
+    api.add_resource(Request, '/requests/<int:req_id>')
+    api.add_resource(AdList, '/ads')
+    api.add_resource(Ad, '/ads/<int:ad_id>')
 
     # Logging
     log_level = logging.INFO if app.config['DEBUG'] else logging.ERROR

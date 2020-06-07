@@ -7,15 +7,17 @@ from src.extensions import auth, db
 
 
 '''
-|   NAME      |     PATH       |   HTTP VERB     |            PURPOSE                   |
-|----------   |----------------|-----------------|--------------------------------------|
-| Add User    | /users         |      GET        | Get list of the users                |
-| Get User    | /users/<int:id>|      GET        | Get a user with id                   |
-| New         | /users/register|      POST       | Register a user {username, password} |
+|   NAME        |     PATH       |   HTTP VERB     |            PURPOSE                   |
+|---------------|----------------|-----------------|--------------------------------------|
+| Get Users List| /users         |      GET        | Get list of the users                |
+| Add User      | /users         |      POST       | Add new user                         |
+| Get User      | /users/<int:id>|      GET        | Get a user with id                   |
+| Delete User   | /users/<int:id>|      DELETE     | Delete a user with id                |
+| Modify User   | /users/<int:id>|      PUT        | Modify a user with id                |
 '''
 
 
-class UserRegister(Resource):
+class UserList(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('username', type=str, required=True,
                         help='This field cannot be left blank')
@@ -40,8 +42,6 @@ class UserRegister(Resource):
 
         return {'username': user.username}, 201
 
-
-class UserList(Resource):
     def get():
         pass
 
@@ -56,3 +56,9 @@ class User(Resource):
                         'username': user.username,
                         'posted_tasks': user.posted_tasks,
                         'completed_tasks': user.completed_tasks})
+
+    def delete(self, user_id):
+        pass
+
+    def put(self, user_id):
+        pass
