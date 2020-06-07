@@ -28,8 +28,9 @@ class AdList(Resource):
     parser.add_argument('username', type=str, required=True,
                         help='This field cannot be left blank')
 
-    def post(self):
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls):
+        data = cls.parser.parse_args()
         title = data['title']
         content = data['content']
         price = data['price']
@@ -53,17 +54,20 @@ class AdList(Resource):
 
         return {'message': 'Ad created.'}, 200
 
-    def get(self):
+    @classmethod
+    def get(cls):
         pass
 
 
 class Ad(Resource):
-
-    def get(self, ad_id):
+    @classmethod
+    def get(cls, ad_id):
         pass
 
-    def delete(self, ad_id):
+    @classmethod
+    def delete(cls, ad_id):
         pass
 
-    def put(self, ad_id):
+    @classmethod
+    def put(cls, ad_id):
         pass
